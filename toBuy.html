@@ -1,0 +1,73 @@
+<head>
+  <title>To Buy List</title>
+</head>
+
+<body>
+  <div class="container">
+    <header>
+        <h1>To Buy List</h1>
+        <h1>Sums: {{inCompleteCount}}</h1>
+      <label class="hide-completed">
+        <input type="checkbox" checked="{{hideCompleted}}">
+        Hide Already Buyed ones 
+      </label>
+
+      {{> loginButtons}}
+     
+     
+      {{ #if currentUser }}
+      <form class="new-item">
+          <input type="text" name="text" placeholder="eg. 'Item Names 100' or 'Item Names $100'" />
+      </form>
+      {{ else }}
+       <p>
+        (SIGN IN TO ADD ITEMS)
+      </p>
+
+      {{/if}}
+    </header> 
+
+    <ul>
+      {{#each items}}
+      {{> item }}
+      {{/each}}
+      <li style="text-align:right;">
+          <div class="sum">总预算: ${{totalSum}} </div> |
+          <div class="sum">首批预算：${{secondarySum}} </div> |
+          <div class="sum">未结：${{inCompleteSum}}</div> |
+      </li>
+  </ul>
+</div>
+</body>
+
+<template name="item">
+    <li class="{{#if checked}}checked{{/if}} {{#if secondary}}secondary{{/if}}">
+        <button class="delete">&times;</button>
+
+        <input type="checkbox" checked="{{checked}}" class="toggle-checked" />
+
+
+        <!-- modify the li tag to have the secondary class if the item is secondary -->
+        <span class="label" style="display:none">
+            {{username}}
+        </span>
+
+        {{ #if secondary }}
+        <button class="toggle-secondary label;" style="background-color:green;">
+            非必需品
+        </button>
+        {{ else }}
+        <button class="toggle-secondary label" style="background-color:red;">
+            需要首批购买
+        </button>
+      {{ /if }}
+
+    <span class="label" style="float:right;">
+       $ {{price}}
+    </span>
+
+    <span class="text">
+        <strong>{{text}}</strong>     </span>
+  </li>
+</template>
+
